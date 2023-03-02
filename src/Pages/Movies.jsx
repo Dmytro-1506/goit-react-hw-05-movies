@@ -1,24 +1,23 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { GetMovies } from "Services/GetMovies";
 import { Link } from "react-router-dom";
 
-export const Movies = () => {
-    // const [movieName, setMovieName] = useState('');
-    const [movies, setMovies] = useState([])
+const getMovies = new GetMovies();
 
-    const hadleSearch = (e) => {
+export const Movies = () => {
+    const [movies, setMovies] = useState([]);
+
+    const searchMovie = (e) => {
         e.preventDefault()
         let searchName = e.target.movieToFind.value
         if (!searchName) {
             return
         }
-        GetMovies(searchName).then(res => setMovies(res))
-    }
-
-    console.log(movies.length);
+        getMovies.byName(searchName).then(res => setMovies(res))
+    };
 
     return <>
-        {!movies.length && (<form action="" onSubmit={hadleSearch}>
+        {!movies.length && (<form action="" onSubmit={searchMovie}>
             <input type="text" name='movieToFind' />
             <button type="submit">search movie</button>
         </form>)}
