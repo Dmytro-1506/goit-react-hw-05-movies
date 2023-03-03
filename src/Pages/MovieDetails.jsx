@@ -11,9 +11,12 @@ export const MovieDetails = () => {
     const { movieId } = useParams();
 
     const getGenres = () => {
-        return movie.genres.map(el => {
-            return <p>{el.name}</p>
-        })
+        console.log(movie.genres);
+        if (movie.genres) {
+            return movie.genres.map(el => {
+                return <p key={el.id}>{el.name}</p>
+            })
+        }
     }
 
     useEffect(() => {

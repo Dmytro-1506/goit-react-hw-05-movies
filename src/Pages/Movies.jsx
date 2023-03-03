@@ -1,32 +1,33 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { GetMovies } from "Services/GetMovies";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { MovieList } from "components/MovieList/MovieList";
+import { useParams } from "react-router-dom";
 
 const getMovies = new GetMovies();
 
 export const Movies = () => {
     const [movies, setMovies] = useState([]);
+    const [searchName, setSearchName] = useState('');
+    const { query } = useParams(`?query=${searchName}`);
 
     const searchMovie = (e) => {
         e.preventDefault()
-        let searchName = e.target.movieToFind.value
+        setSearchName(e.target.movieToFind.value)
+    };
+
+    useEffect(() => {
         if (!searchName) {
             return
         }
         getMovies.byName(searchName).then(res => setMovies(res))
-    };
+    }, [searchName])
 
-    return <>
-        {!movies.length && (<form action="" onSubmit={searchMovie}>
+    return <div className="container">
+        <form action="" onSubmit={searchMovie}>
             <input type="text" name='movieToFind' />
             <button type="submit">search movie</button>
-        </form>)}
-        {(movies.length > 0) && (<ul className="movies-list">
-            {movies.map(el => {
-                return <li key={el.id}>
-                    <Link to={`/movies/${el.id}`}>{el.title}</Link>
-                </li>
-            })}
-        </ul>)}
-    </>
+        </form>
+        {(movies.length > 0) && <MovieList path={query} movies={movies} />}
+    </div>
 }
