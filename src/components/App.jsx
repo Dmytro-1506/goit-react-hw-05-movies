@@ -6,7 +6,8 @@ import { Movies } from 'Pages/Movies';
 import { MovieDetails } from 'Pages/MovieDetails';
 import { NotFound } from 'Pages/NotFound';
 import { Header } from './Header/Header';
-import { MovieList } from './MovieList/MovieList';
+import { Cast } from './Cast';
+import { Reviews } from './Reviews';
 
 const getMovies = new GetMovies();
 
@@ -32,10 +33,11 @@ export const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home movies={movies} />} />
-        <Route path="/movies" element={<Movies />} >
-          <Route path=":query" element={<MovieList/> } />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/movies/:movieId" element={<MovieDetails />} >
+          <Route path="cast" element={<Cast />} />
+          <Route path="reviews" element={<Reviews />} />
         </Route>
-          <Route path="/movies/:movieId" element={<MovieDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

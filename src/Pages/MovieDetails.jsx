@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, Outlet } from "react-router-dom";
 import { GetMovies } from "Services/GetMovies";
-import { Cast } from "components/Cast";
-import { Reviews } from "components/Reviews";
 
 const getMovies = new GetMovies();
 
@@ -11,7 +9,6 @@ export const MovieDetails = () => {
     const { movieId } = useParams();
 
     const getGenres = () => {
-        console.log(movie.genres);
         if (movie.genres) {
             return movie.genres.map(el => {
                 return <p key={el.id}>{el.name}</p>
@@ -21,20 +18,10 @@ export const MovieDetails = () => {
 
     useEffect(() => {
         getMovies.details(movieId).then(res => {
-            console.log(res);
             setMovie(res)
         })
     }, [movieId]);
 
-    getMovies.credits(movieId).then(res => {
-        // console.log(res);
-    })
-
-    getMovies.reviews(movieId).then(res => {
-        // console.log(res);
-    })
-
-    
     return <div className="container">
         <h2>{movie.title}</h2>
         <img src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
@@ -46,8 +33,9 @@ export const MovieDetails = () => {
         <div className="genres">{getGenres()}</div>
         <div className="addInform">
             <p>Additional information</p>
-            <Cast></Cast>
-            <Reviews></Reviews>
+            <Link to="cast" replace>Cast</Link>
+            <Link to="reviews" replace>Reviews</Link>
         </div>
+        <Outlet/>
     </div>
 };

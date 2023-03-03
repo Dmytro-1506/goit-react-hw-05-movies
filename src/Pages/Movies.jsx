@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react"
 import { GetMovies } from "Services/GetMovies";
-// import { Link } from "react-router-dom";
 import { MovieList } from "components/MovieList/MovieList";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const getMovies = new GetMovies();
 
 export const Movies = () => {
     const [movies, setMovies] = useState([]);
-    const [searchName, setSearchName] = useState('');
-    const { query } = useParams(`?query=${searchName}`);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchName = searchParams.get("query") ?? "";
 
     const searchMovie = (e) => {
         e.preventDefault()
-        setSearchName(e.target.movieToFind.value)
+        const query = e.target.movieToFind.value;
+        const nextParams = query !== "" ? { query } : {};
+        setSearchParams(nextParams);
     };
 
     useEffect(() => {
@@ -28,6 +29,6 @@ export const Movies = () => {
             <input type="text" name='movieToFind' />
             <button type="submit">search movie</button>
         </form>
-        {(movies.length > 0) && <MovieList path={query} movies={movies} />}
+        {(movies.length > 0) && <MovieList movies={movies} />}
     </div>
 }
