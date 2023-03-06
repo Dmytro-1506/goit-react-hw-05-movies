@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, Outlet } from "react-router-dom";
+import { useParams, Link, Outlet, useLocation } from "react-router-dom";
 import { GetMovies } from "Services/GetMovies";
+import { BackButton } from "components/BackButton/BackButton";
 
 const getMovies = new GetMovies();
 
 export const MovieDetails = () => {
     const [movie, setMovie] = useState({});
     const { movieId } = useParams();
+    const location = useLocation();
 
     const getGenres = () => {
         if (movie.genres) {
@@ -23,6 +25,7 @@ export const MovieDetails = () => {
     }, [movieId]);
 
     return <div className="container">
+        <BackButton state={{ prevPage: location.pathname }} />
         <h2>{movie.title}</h2>
         <img src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
             alt={movie.original_title
