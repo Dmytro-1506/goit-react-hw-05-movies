@@ -4,8 +4,8 @@ import { Movies } from 'Pages/Movies';
 import { MovieDetails } from 'Pages/MovieDetails';
 import { NotFound } from 'Pages/NotFound';
 import { Header } from './Header/Header';
-import { Cast } from './Cast';
-import { Reviews } from './Reviews';
+import { Cast } from 'Pages/Cast';
+import { Reviews } from 'Pages/Reviews';
 
 export const App = () => {
   return (
@@ -20,16 +20,16 @@ export const App = () => {
         color: '#010101'
       }}
     >
-      <Header />
+      {/* <Header /> */}
       <Routes>
-        {/* <Route path="/" element={<Header />} > */}
+        <Route path="/" element={<Header />} >
           <Route index element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/movies/:movieId" element={<MovieDetails />} >
+          <Route path="movies" element={<Movies />} />
+          <Route path="movies/:movieId" element={<MovieDetails />} >
             <Route path="cast" element={<Cast />} />
             <Route path="reviews" element={<Reviews />} />
           </Route>
-        {/* </Route> */}
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
