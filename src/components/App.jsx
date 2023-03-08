@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { GetMovies } from 'Services/GetMovies';
 import { Home } from 'Pages/Home';
 import { Movies } from 'Pages/Movies';
 import { MovieDetails } from 'Pages/MovieDetails';
@@ -9,15 +7,7 @@ import { Header } from './Header/Header';
 import { Cast } from './Cast';
 import { Reviews } from './Reviews';
 
-const getMovies = new GetMovies();
-
 export const App = () => {
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    getMovies.trending().then(res => setMovies(res))
-  }, [])
-
   return (
     <div
       style={{
@@ -32,12 +22,14 @@ export const App = () => {
     >
       <Header />
       <Routes>
-        <Route path="/" element={<Home movies={movies} />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/movies/:movieId" element={<MovieDetails />} >
-          <Route path="cast" element={<Cast />} />
-          <Route path="reviews" element={<Reviews />} />
-        </Route>
+        {/* <Route path="/" element={<Header />} > */}
+          <Route index element={<Home />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/movies/:movieId" element={<MovieDetails />} >
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
+        {/* </Route> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
